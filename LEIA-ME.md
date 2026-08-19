@@ -74,6 +74,7 @@ recortadas, tratadas e convertidas para WebP:
 | `linha-pesada.webp` | depósito com tambores e caixas | 880 × 586 | bloco escuro |
 | `fachada.webp` | foto de capa | 1200 × 630 | `og:image` (WhatsApp/Facebook) |
 | `icone-180.png` | ícone da marca | 180 × 180 | `apple-touch-icon` |
+| `icone.svg` | mesmo ícone em vetor | quadrado | `favicon` |
 
 Para trocar qualquer uma, **mantenha o nome do arquivo** e, se a proporção mudar,
 corrija o `width`/`height` no `build.py` (a lista `GALERIA` e o `<img>` do hero).
@@ -83,17 +84,28 @@ durante o carregamento — número errado piora o CLS.
 Para converter JPG → WebP: `cwebp -q 50 foto.jpg -o assets/hero-fachada.webp`.
 Alvo: hero abaixo de 60 KB, as da galeria abaixo de 50 KB.
 
-### Logo de verdade, sem arquivo
-O `logo-horizontal.svg` de placeholder foi apagado. A assinatura agora é
-**desenhada inline no HTML**: o ícone (carro, motor com raio, disco de freio e
-porca laranja) é um SVG gerado pela função `marca_svg()` do `build.py`, e o
-"NENOAUTOPEÇAS" é texto com a fonte do sistema. Vantagem: zero requisição, e a
-versão clara/escura sai da mesma fonte (o rodapé usa `marca(escuro=True)`).
+### Logo de verdade, desenhado no HTML
+O `logo-horizontal.svg` de placeholder foi apagado. A assinatura é **desenhada
+inline no HTML**: o ícone (carro, motor com raio, disco de freio e porca
+laranja) sai da função `marca_svg()` do `build.py`, e o "NENOAUTOPEÇAS" é texto
+com a fonte do sistema. Vantagem: zero requisição, e a versão clara/escura sai
+da mesma fonte (o rodapé usa `marca(escuro=True)`).
 
-O favicon é o mesmo desenho embutido como `data:` URI no `<head>` — também sem
-requisição de rede.
+O traçado do carro é o **vetor oficial**, extraído do logo horizontal da
+agência: as curvas estão nas constantes `CARRO_TRACO` (corpo, rodas e motor) e
+`CARRO_LARANJA` (disco de freio e porca), reescaladas do original de 5734
+unidades para o `viewBox="0 0 160 81.5"` com uma casa decimal — o desvio máximo
+é 0,05 unidade, invisível nos 34 px em que o ícone aparece. Só as cores mudam:
+onde o logo original é cinza, aqui entra `#2c3448` no topo e branco no rodapé.
 
-Se um dia chegar o SVG oficial da agência, troque o corpo de `marca_svg()`.
+O favicon (`assets/icone.svg`) e o `apple-touch-icon` (`assets/icone-180.png`)
+usam esse mesmo vetor dentro de um quadrado marinho. O SVG é gerado pelo
+`build.py` (`icone_quadrado()`) junto com as páginas; o PNG de 180 px é
+exportado à mão a partir dele. Virou arquivo em vez de `data:` URI porque o
+desenho oficial é detalhado demais para repetir no `<head>` de cada página.
+
+Para trocar o desenho, substitua as duas constantes — nada mais no código sabe
+o formato do carro.
 
 ### Uma cor de laranja só, tirada da fachada
 Os três laranjas divergentes acabaram. As cores foram **amostradas da foto da
