@@ -16,11 +16,24 @@ assets/             fotos reais da loja + ícone
 build.py            gerador (edite aqui e rode `python build.py` para refazer as 6)
 ```
 
-## ANTES DE PUBLICAR — só faltam 2 coisas
+## ANTES DE PUBLICAR — falta 1 coisa (o Ads)
 
-### 1. Trocar o domínio
-Em `build.py`, a variável `DOMINIO`. Depois rode `python build.py`. Ela alimenta
-o `canonical`, o `og:url` e o JSON-LD.
+### 1. Trocar o domínio  —  provisoriamente resolvido
+`DOMINIO`, em `build.py`, está em `https://fernandohf.github.io/neno-autopecas`
+(GitHub Pages). Ela alimenta o `canonical`, o `og:url` e o JSON-LD, e o gerador
+já monta o caminho de subpasta certo — o `index` vira a barra da pasta.
+
+Quando o domínio próprio for registrado, troque a variável, rode
+`python build.py` e cadastre o domínio em **Settings → Pages → Custom domain**.
+O GitHub passa a redirecionar o `github.io` para ele com 301, então o que já
+tiver sido indexado migra sozinho.
+
+O valor original era `https://www.nenoautopecas.com.br` — **esse domínio é de
+terceiros** (titular "Neno Auto Peças Ltda.", CNPJ 38.928.016/0001-31, expira em
+17/03/2027, estacionado na Hostinger sem site). Confira esse CNPJ com o da loja:
+se bater, o domínio já é do cliente e é só apontar o DNS. Se não bater, estavam
+livres na última consulta: `autopecasneno.com.br`, `nenoautopecaspdf.com.br`
+(combina com o Instagram `@nenopecaspdf`) e o `nenoautopecas.com`.
 
 ### 2. Colar o snippet do Google Ads
 No `<head>` de cada página tem um bloco comentado. Descomente, troque
